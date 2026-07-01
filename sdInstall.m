@@ -27,5 +27,5 @@ function sdInstall
         fprintf('  Loaded bookmarks from bookmarks.mat.\n');
     end
 
-    fprintf('<strong>Done.</strong> Restart MATLAB or run rehash toolboxcache.\n');
+    fprintf('<strong>Done.</strong> Restart MATLAB or run `rehash toolboxcache`.\n');
 end

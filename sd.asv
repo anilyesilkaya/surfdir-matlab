@@ -56,12 +56,14 @@ function sd(varargin)
                 switch arg
                     case {"back", "b", "-"}
                         if history(1).cursor > 1
-                            history = jump2directory(history,history(history(1).cursor - 1).source, CursorIncrement = -1);
+                            history = jump2directory(history,history(history(1).cursor - 1).source);
+                            history(1).cursor = history(1).cursor - 1;
                         end
                         navHandled = true;
                     case {"fwd", "f"}
                         if history(1).cursor < numel(history)
                             history = jump2directory(history,history(history(1).cursor + 1).source);
+                            history(1).cursor = history(1).cursor + 1;
                         end
                         navHandled = true;
                     case "book"
@@ -318,11 +320,9 @@ function showHistory(history)
     fprintf('  %d entries, cursor at %d\n\n', n, cursor);
 end
 
-function history = jump2directory(history, target, options)
+function history = jump2directory(history, target)
     arguments
-        history {mustBeNonempty}
-        target
-        options.CursorIncrement = 1
+        history 
     end
     maxHist = 1000; % maximum history size
     if numel(history) > maxHist
@@ -340,7 +340,7 @@ function history = jump2directory(history, target, options)
     % Log the destination
     history(idx).destination = string(pwd);
     history(idx).last_accessed = string(datetime("now"));
-    history(1).cursor = history(1).cursor + options.CursorIncrement;
+    history(1).cursor = history(1).cursor + 1;
 end
 
 function bookmarks = initBookmarks(prefGroup, bookmarksName)
